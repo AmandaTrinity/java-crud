@@ -80,19 +80,31 @@ Base path: `/usuario`
 
 ---
 
-### 2) Buscar usuário por e-mail
+### 2) Listar usuários
 
-**GET** `/usuario?email=ana@email.com`
+**GET** `/usuario`
 
 Exemplo cURL:
 
 ```bash
-curl "http://localhost:8080/usuario?email=ana@email.com"
+curl "http://localhost:8080/usuario"
 ```
 
 ---
 
-### 3) Atualizar usuário por ID
+### 3) Buscar usuário por e-mail
+
+**GET** `/usuario/buscar?email=ana@email.com`
+
+Exemplo cURL:
+
+```bash
+curl "http://localhost:8080/usuario/buscar?email=ana@email.com"
+```
+
+---
+
+### 4) Atualizar usuário por ID
 
 **PUT** `/usuario?id=1`
 
@@ -105,7 +117,7 @@ curl "http://localhost:8080/usuario?email=ana@email.com"
 
 ---
 
-### 4) Deletar usuário por e-mail
+### 5) Deletar usuário por e-mail
 
 **DELETE** `/usuario?email=ana.novo@email.com`
 

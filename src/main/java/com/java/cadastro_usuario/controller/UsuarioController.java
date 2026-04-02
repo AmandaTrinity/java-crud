@@ -6,6 +6,8 @@ import com.java.cadastro_usuario.infrastructure.entities.Usuario;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -25,6 +27,11 @@ public class UsuarioController {
     }
 
     @GetMapping
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    }
+
+    @GetMapping("/buscar")
     public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
         Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
         return ResponseEntity.ok(usuario);

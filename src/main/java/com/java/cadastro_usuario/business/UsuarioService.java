@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.java.cadastro_usuario.infrastructure.entities.Usuario;
 import com.java.cadastro_usuario.infrastructure.repository.UsuarioRepository;
 
+import java.util.List;
+
 @Service
 public class UsuarioService {
     public final UsuarioRepository usuarioRepository;
@@ -15,6 +17,10 @@ public class UsuarioService {
 
     public void salvarUsuario(Usuario usuario) {
         usuarioRepository.saveAndFlush(usuario);
+    }
+
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
     }
 
     public Usuario buscarUsuarioPorEmail(String email) {
