@@ -12,8 +12,16 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+    // OBS: ResponseEntity é uma classe do Spring que representa toda a resposta HTTP
+    // que será enviada de volta para o cliente
+    // O método .ok() cria uma resposta com status 200 OK
+    // .build() é usado para criar uma resposta sem corpo
+
+    // atributo que servirá para que toda a classe UsuarioController
+    // tenha acesso aos métodos do serviço  
     private final UsuarioService usuarioService;
 
+    // Construtor
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
@@ -43,6 +51,9 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
+
+    // O @RequestParam serve para passar parâmetros na URL como ?parametro=valor
+    // O @RequestBody serve para passar parâmetros no corpo da requisição
     @PutMapping
     public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody Usuario usuario) {
         usuarioService.atualizarUsuarioPorId(id, usuario);

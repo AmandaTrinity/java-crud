@@ -3,13 +3,13 @@ package com.java.cadastro_usuario.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter //cria getId, getEmail...
+@Getter // cria getId, getEmail...
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@AllArgsConstructor // Cria um construtor com todos os atributos
+@NoArgsConstructor // Cria um construtor sem atributos
+@Builder // Cria um construtor com todos os atributos
 @Table(name = "usuario")
-@Entity //Esta classe representa nosso 'banco'
+@Entity // Esta classe representa nosso 'banco'
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
