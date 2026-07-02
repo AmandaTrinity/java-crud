@@ -1,6 +1,8 @@
 package com.java.cadastro_usuario.controller;
 
 import com.java.cadastro_usuario.business.UsuarioService;
+import com.java.cadastro_usuario.dto.UsuarioRequestDTO;
+import com.java.cadastro_usuario.dto.UsuarioResponseDTO;
 import com.java.cadastro_usuario.infrastructure.entities.Usuario;
 
 import org.springframework.http.ResponseEntity;
@@ -27,22 +29,44 @@ public class UsuarioController {
     }
 
     @PostMapping
-    // O mais adequado é DTO como parâmetro, mas para simplificar, usaremos a entidade diretamente
-    public ResponseEntity<Void> salvarUsuario(@RequestBody Usuario usuario) {
-        // usar a instância injetada, não a referência estática
+    public ResponseEntity<Void> salvarUsuario(@RequestBody UsuarioRequestDTO usuarioDTO) {
+        // Convertemos dto em entidade
+        Usuario usuario = Usuario.builder()
+                .nome(usuarioDTO.getNome())
+                .email(usuarioDTO.getEmail())
+                .build();
+        // Chama o serviço para salvar
         usuarioService.salvarUsuario(usuario);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    public ResponseEntity<List<UsuarioResponseDTO>> listarUsuarios() {
+        List<Usuario> usuarios = usuarioService.listarUsuarios();
+        
+        // Converte lista de entidades em lista de DTOs usando .map
+        List<UsuarioResponseDTO> dtos = usuarios.stream()
+                                    .map(usuario -> UsuarioResponseDTO.builder()
+                                            .id(usuario.getId())
+                                            .nome(usuario.getNome())
+                                            .email(usuario.getEmail())
+                                            .build())
+                                    .collect(java.util.stream.Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam String email) {
+    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorEmail(@RequestParam String email) {
         Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
-        return ResponseEntity.ok(usuario);
+
+        // Convertemos entidade em dto
+        UsuarioResponseDTO response = UsuarioResponseDTO.builder()
+                .id(usuario.getId())
+                .nome(usuario.getNome())
+                .email(usuario.getEmail())
+                .build();
+                
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping
@@ -55,7 +79,14 @@ public class UsuarioController {
     // O @RequestParam serve para passar parâmetros na URL como ?parametro=valor
     // O @RequestBody serve para passar parâmetros no corpo da requisição
     @PutMapping
-    public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody UsuarioRequestDTO usuarioDTO) {
+        // Convertemos dto em entidade
+        Usuario usuario = Usuario.builder()
+                .id(id)
+                .nome(usuarioDTO.getNome())
+                .email(usuarioDTO.getEmail())
+                .build();
+
         usuarioService.atualizarUsuarioPorId(id, usuario);
         return ResponseEntity.ok().build();
     }
