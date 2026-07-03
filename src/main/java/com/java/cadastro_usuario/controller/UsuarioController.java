@@ -8,6 +8,7 @@ import com.java.cadastro_usuario.infrastructure.entities.Usuario;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarUsuario(@RequestBody UsuarioRequestDTO usuarioDTO) {
+    public ResponseEntity<Void> salvarUsuario(@RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
         // Convertemos dto em entidade
         Usuario usuario = Usuario.builder()
                 .nome(usuarioDTO.getNome())
@@ -79,7 +80,7 @@ public class UsuarioController {
     // O @RequestParam serve para passar parâmetros na URL como ?parametro=valor
     // O @RequestBody serve para passar parâmetros no corpo da requisição
     @PutMapping
-    public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody UsuarioRequestDTO usuarioDTO) {
+    public ResponseEntity<Void> atualizarUsuarioPorId(@RequestParam Integer id, @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
         // Convertemos dto em entidade
         Usuario usuario = Usuario.builder()
                 .id(id)
